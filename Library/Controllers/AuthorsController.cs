@@ -90,24 +90,7 @@ namespace Library.Controllers
         }
 
         // GET: Authors/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Authors authors = db.Authors.Find(id);
-            if (authors == null)
-            {
-                return HttpNotFound();
-            }
-            return View(authors);
-        }
-
-        // POST: Authors/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             Authors authors = db.Authors.Find(id);
             db.Authors.Remove(authors);
