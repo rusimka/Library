@@ -12,6 +12,8 @@ namespace Library.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class LibraryDatabaseEntities : DbContext
     {
@@ -27,5 +29,14 @@ namespace Library.Models
     
         public virtual DbSet<Authors> Authors { get; set; }
         public virtual DbSet<Books> Books { get; set; }
+    
+        public virtual int DeleteAuthors(Nullable<int> idAuthor)
+        {
+            var idAuthorParameter = idAuthor.HasValue ?
+                new ObjectParameter("IdAuthor", idAuthor) :
+                new ObjectParameter("IdAuthor", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteAuthors", idAuthorParameter);
+        }
     }
 }
