@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -92,10 +93,27 @@ namespace Library.Controllers
         // GET: Authors/Delete/5
         public ActionResult Delete(int id)
         {
-            Authors authors = db.Authors.Find(id);
-            db.Authors.Remove(authors);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            //Authors authors = db.Authors.Find(id);
+            //db.Authors.Remove(authors);
+            //db.SaveChanges();
+            SqlConnection con = new SqlConnection("Data Source=.;Initial Catalog=LibraryDatabase;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            con.Open();
+            using (con)
+            {
+                using (SqlCommand cmd = new SqlCommand("DeleteAuthors", con))
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@IdAuthor", id);
+                    cmd.ExecuteNonQuery();
+                    cmd.Cancel();
+
+
+                    //cmd.Parameters.Add("@idTransakcija", SqlDbType.Int).Value = null;
+                }
+
+                return RedirectToAction("Index");
+            }
         }
 
         protected override void Dispose(bool disposing)

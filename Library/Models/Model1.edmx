@@ -37,6 +37,15 @@
         <Function Name="DeleteAuthors" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdAuthor" Type="int" Mode="In" />
         </Function>
+        <Function Name="InsertAuthor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FullName" Type="varchar" Mode="In" />
+          <Parameter Name="age" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UpdateAuthor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idAuthor" Type="int" Mode="In" />
+          <Parameter Name="FullName" Type="varchar" Mode="In" />
+          <Parameter Name="age" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="LibraryDatabaseModelStoreContainer">
           <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Books" EntityType="Self.Books" Schema="dbo" store:Type="Tables" />
@@ -88,7 +97,16 @@
             <End Role="Books" EntitySet="Books" />
           </AssociationSet>
           <FunctionImport Name="DeleteAuthors">
-            <Parameter Name="IdAuthor" Mode="In" Type="Int32" />
+          <Parameter Name="IdAuthor" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="InsertAuthor">
+            <Parameter Name="FullName" Mode="In" Type="String" />
+            <Parameter Name="age" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateAuthor">
+            <Parameter Name="idAuthor" Mode="In" Type="Int32" />
+            <Parameter Name="FullName" Mode="In" Type="String" />
+            <Parameter Name="age" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
       </Schema>
@@ -105,6 +123,22 @@
                 <ScalarProperty Name="age" ColumnName="age" />
               </MappingFragment>
             </EntityTypeMapping>
+            <EntityTypeMapping TypeName="LibraryDatabaseModel.Authors">
+              <ModificationFunctionMapping>
+                <DeleteFunction FunctionName="LibraryDatabaseModel.Store.DeleteAuthors" >
+                  <ScalarProperty Name="id" ParameterName="IdAuthor" />
+                </DeleteFunction>
+                <InsertFunction FunctionName="LibraryDatabaseModel.Store.InsertAuthor">
+                  <ScalarProperty Name="age" ParameterName="age" />
+                  <ScalarProperty Name="FullName" ParameterName="FullName" />
+                </InsertFunction>
+                <UpdateFunction FunctionName="LibraryDatabaseModel.Store.UpdateAuthor">
+                  <ScalarProperty Name="age" ParameterName="idAuthor" Version="Current" />
+                  <ScalarProperty Name="age" ParameterName="age" Version="Current" />
+                  <ScalarProperty Name="FullName" ParameterName="FullName" Version="Current" />
+                </UpdateFunction>
+              </ModificationFunctionMapping>
+            </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Books">
             <EntityTypeMapping TypeName="LibraryDatabaseModel.Books">
@@ -117,6 +151,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="DeleteAuthors" FunctionName="LibraryDatabaseModel.Store.DeleteAuthors" />
+          <FunctionImportMapping FunctionImportName="InsertAuthor" FunctionName="LibraryDatabaseModel.Store.InsertAuthor" />
+          <FunctionImportMapping FunctionImportName="UpdateAuthor" FunctionName="LibraryDatabaseModel.Store.UpdateAuthor" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -38,5 +38,35 @@ namespace Library.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteAuthors", idAuthorParameter);
         }
+    
+        public virtual int InsertAuthor(string fullName, Nullable<int> age)
+        {
+            var fullNameParameter = fullName != null ?
+                new ObjectParameter("FullName", fullName) :
+                new ObjectParameter("FullName", typeof(string));
+    
+            var ageParameter = age.HasValue ?
+                new ObjectParameter("age", age) :
+                new ObjectParameter("age", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertAuthor", fullNameParameter, ageParameter);
+        }
+    
+        public virtual int UpdateAuthor(Nullable<int> idAuthor, string fullName, Nullable<int> age)
+        {
+            var idAuthorParameter = idAuthor.HasValue ?
+                new ObjectParameter("idAuthor", idAuthor) :
+                new ObjectParameter("idAuthor", typeof(int));
+    
+            var fullNameParameter = fullName != null ?
+                new ObjectParameter("FullName", fullName) :
+                new ObjectParameter("FullName", typeof(string));
+    
+            var ageParameter = age.HasValue ?
+                new ObjectParameter("age", age) :
+                new ObjectParameter("age", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateAuthor", idAuthorParameter, fullNameParameter, ageParameter);
+        }
     }
 }
