@@ -29,7 +29,7 @@
             @Html.DisplayFor(modelItem => item.title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.photo)
+           <img src="@item.photo" width="100px" />
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Authors.FullName)
